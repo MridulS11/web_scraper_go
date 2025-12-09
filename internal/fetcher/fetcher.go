@@ -40,12 +40,11 @@ func Fetcher(category string){
 	jobs := make(chan string, page_count)
 
 	for i := 0 ; i < page_count ; i++{
-		go func(){
+		wg.Go(func(){
 			for job := range jobs{
 				Client(job)
-				wg.Done()
 			}
-		}()
+		})
 	}
 
 	for w.Scan(){
