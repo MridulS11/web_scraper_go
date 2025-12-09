@@ -2,7 +2,7 @@ package fetcher
 
 import "net/http"
 
-func Client(url, name string){
+func Client(url string){
 
 	resp, err := http.Get(url)
 	if err != nil{
@@ -11,6 +11,6 @@ func Client(url, name string){
 
 	defer resp.Body.Close()
 
-
+	
 
 }

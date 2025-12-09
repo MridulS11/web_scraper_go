@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"os"
 	"path/filepath"
+	"sync"
 	"web_scraper/internal/storage"
 )
 
@@ -32,15 +33,28 @@ func Fetcher(category string){
 		panic(err)
 	}
 
-	
-
 	w := bufio.NewScanner(file)
-	
+
+	var wg sync.WaitGroup
+	page_count := len(url_map[category])
+	jobs := make(chan string, page_count)
+
+	for i := 0 ; i < page_count ; i++{
+		go func(){
+			for job := range jobs{
+				Client(job)
+				wg.Done()
+			}
+		}()
+	}
+
 	for w.Scan(){
 		for _, page := range url_map[category]{
-			go Client(w.Text(), page)
+			jobs <- w.Text() + page
 		}
 	}
 
+	wg.Wait()
+	close(jobs)
 
 }
