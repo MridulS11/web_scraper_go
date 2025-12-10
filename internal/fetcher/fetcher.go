@@ -2,10 +2,12 @@ package fetcher
 
 import (
 	"bufio"
-	"fmt"
+	"context"
+	"log"
 	"os"
 	"path/filepath"
 	"sync"
+	"time"
 	"web_scraper/internal/storage"
 )
 
@@ -44,8 +46,19 @@ func Fetcher(category string){
 		//wg.Add(1)
 		wg.Go(func(){
 			for job := range jobs{	//job is the value received from the channel, so job has type string.
-				Client(job)
-				fmt.Println(job)
+				ctx, cancel := context.WithTimeout(context.Background(), 10 * time.Second)
+				Client(ctx, job)
+				if ctx.Err() != nil{
+					log.Println(ctx.Err())
+				}
+				// select {
+				// case <-jobs:
+				// 	Client(job)
+				// 	fmt.Println(job)		this consumes the job too, which causes less urls to be accessed(serious bug)
+				// case <- ctx.Done():
+				// 	fmt.Println(ctx.Err())
+				// }
+				cancel()
 			}
 		})
 	}

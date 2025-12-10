@@ -2,6 +2,7 @@ package fetcher
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -13,13 +14,13 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func Client(url string){
+func Client(ctx context.Context, url string){
 
 	//resp, err := http.NewRequest("GET", url, nil)
 
 
 	
-	req, err := http.NewRequest("GET", url, nil)
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		panic(err)
 	}
