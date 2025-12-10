@@ -29,7 +29,7 @@ func Fetcher(category string){
 		panic(err)
 	}
 
-	fullpath := filepath.Join(path, "url.txt")
+	fullpath := filepath.Join(path, "output/url.txt")
 	file, err := os.Open(fullpath)
 
 	if err != nil{

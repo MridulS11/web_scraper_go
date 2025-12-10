@@ -18,8 +18,8 @@ func main(){
 
 	mainPath := filepath.Join(file, "cmd/main")
 	fmt.Println(mainPath)
-	urlPath := filepath.Join(file, "url.txt")
-	scrapedPath := filepath.Join(file, "scraped_text.txt")
+	urlPath := filepath.Join(file, "output/url.txt")
+	scrapedPath := filepath.Join(file, "output/scraped_text.txt")
 
 	if cleanType == "-deep"{
 		err := os.Remove(mainPath)

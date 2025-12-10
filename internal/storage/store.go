@@ -22,7 +22,7 @@ func Store(url string){
 		panic(err)
 	}
 
-	fullpath := filepath.Join(path, "url.txt")
+	fullpath := filepath.Join(path, "output/url.txt")
 
 	file, err := os.OpenFile(fullpath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0777)
 

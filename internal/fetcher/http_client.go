@@ -41,7 +41,7 @@ func Client(ctx context.Context, url string){
 	if err != nil{
 		panic(err)
 	}
-	fullpath := filepath.Join(path, "scraped_text.txt")
+	fullpath := filepath.Join(path, "output/scraped_text.txt")
 	f, err := os.OpenFile(fullpath, os.O_APPEND | os.O_CREATE | os.O_WRONLY, 0777)	//create file(and other privileges)
 	if err != nil{
 		panic(err)
