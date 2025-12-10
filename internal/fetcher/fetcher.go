@@ -2,6 +2,7 @@ package fetcher
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"path/filepath"
 	"sync"
@@ -35,25 +36,28 @@ func Fetcher(category string){
 
 	w := bufio.NewScanner(file)
 
-	var wg sync.WaitGroup
 	page_count := len(url_map[category])
+	var wg sync.WaitGroup
 	jobs := make(chan string, page_count)
 
 	for i := 0 ; i < page_count ; i++{
+		//wg.Add(1)
 		wg.Go(func(){
-			for job := range jobs{
+			for job := range jobs{	//job is the value received from the channel, so job has type string.
 				Client(job)
+				fmt.Println(job)
 			}
 		})
 	}
 
 	for w.Scan(){
-		for _, page := range url_map[category]{
-			jobs <- w.Text() + page
-		}
+		//defer wg.Done()
+		jobs <- w.Text()
 	}
 
+	defer os.Remove(fullpath)
+
+	close(jobs) //needs to be here before wait
 	wg.Wait()
-	close(jobs)
 
 }
