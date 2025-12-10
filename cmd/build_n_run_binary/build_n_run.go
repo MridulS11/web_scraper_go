@@ -15,9 +15,9 @@ func main(){
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 	category := os.Args[1]
 	path, _ := os.Getwd()
-	fullpath := filepath.Join(path, "main")
+	fullpath := filepath.Join(path, "cmd/main")
 	fmt.Println(fullpath)
-	build := exec.Command("go", "build", "cmd/main.go")
+	build := exec.Command("go", "build", "-o", "cmd", "cmd/main_binary/main.go")
 	build.Run()
 	binary := exec.Command(fullpath, category)
 	binary.Stdout = os.Stdout
@@ -31,7 +31,7 @@ func main(){
 	select{
 	case <-time.After(30 * time.Second):
 		fmt.Println("\nDeleting Files...")
-		end := exec.Command(filepath.Join(path, "reset"), "-deep")
+		end := exec.Command(filepath.Join(path, "cmd/reset"), "-deep")
 		end.Stdout = os.Stdout
 		end.Stderr = os.Stderr
 		end.Run()

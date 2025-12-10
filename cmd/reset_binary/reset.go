@@ -16,16 +16,24 @@ func main(){
 		cleanType = os.Args[1]
 	}
 
-	mainPath := filepath.Join(file, "main")
+	mainPath := filepath.Join(file, "cmd/main")
+	fmt.Println(mainPath)
 	urlPath := filepath.Join(file, "url.txt")
 	scrapedPath := filepath.Join(file, "scraped_text.txt")
 
 	if cleanType == "-deep"{
-		os.Remove(mainPath)
+		err := os.Remove(mainPath)
+		if err != nil{
+			fmt.Println(err)
+		}
 	}
-
 	os.Remove(urlPath)
 	os.Remove(scrapedPath)
-	fmt.Println("Directory Cleaned")
+	if cleanType == "-deep"{
+		fmt.Println("Directory Deep Cleaned")
+	} else{
+		fmt.Println("Directory Cleaned")
+	}
+	
 
 }
