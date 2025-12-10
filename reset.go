@@ -1,4 +1,4 @@
-package webscraper
+package main
 
 import (
 	"fmt"
@@ -6,18 +6,26 @@ import (
 	"path/filepath"
 )
 
-func reset(){
-
+func main(){
+	
 	file, _ := os.Getwd()
+
+	cleanType := ""
+
+	if len(os.Args) > 1{
+		cleanType = os.Args[1]
+	}
+
 	mainPath := filepath.Join(file, "main")
 	urlPath := filepath.Join(file, "url.txt")
+	scrapedPath := filepath.Join(file, "scraped_text.txt")
 
-	os.Remove(mainPath)
+	if cleanType == "-deep"{
+		os.Remove(mainPath)
+	}
+
 	os.Remove(urlPath)
-	
-}
-
-func main(){
-	reset()
+	os.Remove(scrapedPath)
 	fmt.Println("Directory Cleaned")
+
 }
