@@ -68,7 +68,7 @@ func Fetcher(category string){
 		jobs <- w.Text()
 	}
 
-	defer os.Remove(fullpath)
+	//defer os.Remove(fullpath)
 
 	close(jobs) //needs to be here before wait
 	wg.Wait()
